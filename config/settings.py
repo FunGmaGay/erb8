@@ -41,7 +41,9 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
-APPLICATION_APPS = ['pages.apps.PagesConfig']
+APPLICATION_APPS = ['pages.apps.PagesConfig',
+                    'doctors.apps.DoctorsConfig',
+                    'listings.apps.ListingsConfig',]
 
 INSTALLED_APPS = DJANGO_APPS + APPLICATION_APPS
 
@@ -81,9 +83,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'clinic',
+        'USER': 'postgres',
+        'PASSWORD': '3739',
+        'HOST': 'localhost' ,
+        'PORT' : '5433',
+    }  
 }
 
 

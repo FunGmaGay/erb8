@@ -2,7 +2,7 @@ from django.db import models
 
 class Doctor(models.Model):
     name = models.CharField(max_length=200)
-    photo = models.ImageField(upload_to='photod/%Y/%m/%d/')
+    photo = models.ImageField(upload_to='photos/%Y/%m/%d/')
     description = models.TextField(blank=True)
     phone = models.CharField(max_length=20, blank='00000000')
     email = models.EmailField(max_length=50, unique=True, blank=False)

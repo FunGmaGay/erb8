@@ -17,7 +17,8 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+# import mimetypes
+# mimetypes.add_type("application/javascript", ".js", True)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -39,16 +40,21 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Add humanize package
+    'django.contrib.humanize',
 ]
 
 APPLICATION_APPS = ['pages.apps.PagesConfig',
                     'doctors.apps.DoctorsConfig',
                     'listings.apps.ListingsConfig',]
 
-INSTALLED_APPS = DJANGO_APPS + APPLICATION_APPS
+THIRD_PARTY_APPS = ["debug_toolbar",]
+
+INSTALLED_APPS = DJANGO_APPS + APPLICATION_APPS + THIRD_PARTY_APPS
 
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -137,3 +143,11 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+

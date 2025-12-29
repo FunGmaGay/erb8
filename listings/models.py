@@ -23,6 +23,5 @@ class Listing(models.Model):
         ordering = ['-list_date']
         indexes = [models.Index(fields=['-list_date'])]
 
-                                
-    def __str__(self):
-        return self.name# Create your models here.
+def __str__(self):
+        return self.name #to be the one for selection

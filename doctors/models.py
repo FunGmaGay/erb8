@@ -8,6 +8,9 @@ class Doctor(models.Model):
     email = models.EmailField(max_length=50, unique=True, blank=False)
     is_mvp = models.BooleanField(default=True)
     hire_date = models.DateTimeField(auto_now_add=True)
+    #for freely select which doctor to be NO.1
+    sort_order = models.IntegerField(null=True, blank=True)
+
 
     def __str__(self):
         return self.name

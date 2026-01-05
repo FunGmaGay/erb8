@@ -25,7 +25,8 @@
             <div class="col-md-4 mb-3">
               <label class="sr-only">District</label>
               <select name="district" class="form-control">
-                <option selected="true" disabled="disabled">
+                <option {% if not values.district %}selected="true" value="" {% endif %}>
+                <!-- delete disabled="disabled"-->
                   District (All)
                 </option>
                 {% for key, value in district_choices.items %}
@@ -36,17 +37,18 @@
             <div class="col-md-4 mb-3">
               <label class="sr-only">Bedrooms</label>
               <select name="bedrooms" class="form-control">
-                <option selected="true" disabled="disabled">
+                <option {% if not values.rooms %} selected="true" value="" {% endif %}>
                   No. of Rooms Available (All)
                 </option>
                 {% for key, value in rooms_choices.items %}
-                    <option value="{{ key }}" {% if values.rooms == key %} selected="true">{{value}}</option>
+                    <option value="{{ key }}" {% if values.rooms == key %} selected="true" {% endif %}>{{value}}</option>
                     {% endfor %} 
+                
               </select>
             </div>
             <div class="col-md-4 mb-3">
               <select name="price" class="form-control" id="type">
-                <option selected="true" disabled="disabled">
+                <option {% if not value.room_type %} selected="true" value="" {% endif %}>
                   Room Types (All)
                 </option>
                 {% for key, value in room_choices.items %}
@@ -86,26 +88,28 @@
   <div class="container">
     <div class="row">
       <!-- Listing 1 -->
+      {% if listings %}
+      {% for listing in listings %}
       <div class="col-md-6 col-lg-4 mb-4">
         <div class="card listing-preview">
           <img
             class="card-img-top"
-            src="assets/img/clinics/clinic-1.jpg"
+            src="{{ listing.photo_main.url}}"
             alt=""
           />
           <div class="card-img-overlay">
           </div>
           <div class="card-body">
             <div class="listing-heading text-center">
-              <h4 class="text-primary">Harmony Health Clinic</h4>
+              <h4 class="text-primary"> {{ listing.title }}</h4>
               <p>
-                <i class="fas fa-map-marker text-secondary"></i> Kowloon Bay
+                <i class="fas fa-map-marker text-secondary"></i> {{ listing.district }}
               </p>
             </div>
             <hr />
             <div class="row py-2 text-secondary">
               <div class="col-6">
-                <i class="fas fa-th-large"></i> Restrooms
+                <i class="fas fa-th-large"></i> No. of Services: {{ listing.service }}
               </div>
               <div class="col-6">
                 <i class="fas fa-dumbbell"></i> Treatment 
@@ -113,7 +117,7 @@
             </div>
             <div class="row py-2 text-secondary">
               <div class="col-6">
-                <i class="fas fa-bed"></i> Bedrooms
+                <i class="fas fa-bed"></i> No. of Rooms: {{ listing.rooms }}
               </div>
               <div class="col-6">
                 <i class="fas fa-bath"></i> Bathrooms
@@ -121,280 +125,27 @@
             </div>
             <hr />
             <div class="row py-2 text-secondary">
-              <div class="col-12"><i class="fas fa-user"></i> Ms. Ma</div>
+              <div class="col-12"><i class="fas fa-user"></i> {{ listing.doctor.name }}</div>
             </div>
             <div class="row text-secondary pb-2">
               <div class="col-12">
-                <i class="fas fa-clock"></i> Reservation required
+                <i class="fas fa-clock"></i> Posted on {{ listing.list_date | timesince }}
               </div>
             </div>
             <hr />
-            <a href="listing.html" class="btn btn-primary btn-block"
+            <a href="{% url 'listings:listing' listing.id %} class="btn btn-primary btn-block"
               >More Info</a
             >
           </div>
         </div>
       </div>
-
-      <!-- Listing 2 -->
-      <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card listing-preview">
-          <img
-            class="card-img-top"
-            src="assets/img/clinics/clinic-2.jpg"
-            alt=""
-          />
-          <div class="card-img-overlay">
+      {% endfor %}
+      {% else %}
+      <div class='col-md-12'>
+            <p>No listings available at the moment. Please check back later.</p>
           </div>
-          <div class="card-body">
-            <div class="listing-heading text-center">
-              <h4 class="text-primary">Evercare Medical Center</h4>
-              <p>
-                <i class="fas fa-map-marker text-secondary"></i> Kowloon
-                City
-              </p>
-            </div>
-            <hr />
-            <div class="row py-2 text-secondary">
-              <div class="col-6">
-                <i class="fas fa-th-large"></i> Restrooms
-              </div>
-              <div class="col-6">
-                <i class="fas fa-dumbbell"></i> Treatment 
-              </div>
-            </div>
-            <div class="row py-2 text-secondary">
-              <div class="col-6">
-                <i class="fas fa-bed"></i> Bedrooms
-              </div>
-              <div class="col-6">
-                <i class="fas fa-bath"></i> Bathrooms
-              </div>
-            </div>
-            <hr />
-            <div class="row py-2 text-secondary">
-              <div class="col-12">
-                <i class="fas fa-user"></i> Ms. Chung
-              </div>
-            </div>
-            <div class="row text-secondary pb-2">
-              <div class="col-12">
-                <i class="fas fa-clock"></i> Reservation required
-              </div>
-            </div>
-            <hr />
-            <a href="listing.html" class="btn btn-primary btn-block"
-              >More Info</a
-            >
-          </div>
-        </div>
+          {% endif %}
       </div>
-
-      <!-- Listing 3 -->
-      <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card listing-preview">
-          <img
-            class="card-img-top"
-            src="assets/img/clinics/clinic-3.jpg"
-            alt=""
-          />
-          <div class="card-img-overlay">
-          </div>
-          <div class="card-body">
-            <div class="listing-heading text-center">
-              <h4 class="text-primary">VitalPath Wellness Clinic</h4>
-              <p>
-                <i class="fas fa-map-marker text-secondary"></i> Sham Shui
-                Po
-              </p>
-            </div>
-            <hr />
-            <div class="row py-2 text-secondary">
-              <div class="col-6">
-                <i class="fas fa-th-large"></i> Restrooms
-              </div>
-              <div class="col-6">
-                <i class="fas fa-dumbbell"></i> Treatment 
-              </div>
-            </div>
-            <div class="row py-2 text-secondary">
-              <div class="col-6">
-                <i class="fas fa-bed"></i> Bedrooms
-              </div>
-              <div class="col-6">
-                <i class="fas fa-bath"></i> Bathrooms
-              </div>
-            </div>
-            <hr />
-            <div class="row py-2 text-secondary">
-              <div class="col-12"><i class="fas fa-user"></i> Ms. Chan</div>
-            </div>
-            <div class="row text-secondary pb-2">
-              <div class="col-12">
-                <i class="fas fa-clock"></i> Reservation required
-              </div>
-            </div>
-            <hr />
-            <a href="listing.html" class="btn btn-primary btn-block"
-              >More Info</a
-            >
-          </div>
-        </div>
-      </div>
-
-      <!-- Listing 4 -->
-      <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card listing-preview">
-          <img
-            class="card-img-top"
-            src="assets/img/clinics/clinic-4.jpg"
-            alt=""
-          />
-          <div class="card-img-overlay">
-          </div>
-          <div class="card-body">
-            <div class="listing-heading text-center">
-              <h4 class="text-primary">BrightCare Health Clinic</h4>
-              <p>
-                <i class="fas fa-map-marker text-secondary"></i> Sha Tin
-              </p>
-            </div>
-            <hr />
-            <div class="row py-2 text-secondary">
-              <div class="col-6">
-                <i class="fas fa-th-large"></i> Restrooms
-              </div>
-              <div class="col-6">
-                <i class="fas fa-dumbbell"></i> Treatment 
-              </div>
-            </div>
-            <div class="row py-2 text-secondary">
-              <div class="col-6">
-                <i class="fas fa-bed"></i> Bedrooms
-              </div>
-              <div class="col-6">
-                <i class="fas fa-bath"></i> Bathrooms
-              </div>
-            </div>
-            <hr />
-            <div class="row py-2 text-secondary">
-              <div class="col-12"><i class="fas fa-user"></i> Ms. Chan</div>
-            </div>
-            <div class="row text-secondary pb-2">
-              <div class="col-12">
-                <i class="fas fa-clock"></i> Reservation required
-              </div>
-            </div>
-            <hr />
-            <a href="listing.html" class="btn btn-primary btn-block"
-              >More Info</a
-            >
-          </div>
-        </div>
-      </div>
-
-      <!-- Listing 5 -->
-      <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card listing-preview">
-          <img
-            class="card-img-top"
-            src="assets/img/clinics/clinic-5.jpg"
-            alt=""
-          />
-          <div class="card-img-overlay">
-          </div>
-          <div class="card-body">
-            <div class="listing-heading text-center">
-              <h4 class="text-primary">TrueCare Medical Clinic</h4>
-              <p>
-                <i class="fas fa-map-marker text-secondary"></i> Lai King
-              </p>
-            </div>
-            <hr />
-            <div class="row py-2 text-secondary">
-              <div class="col-6">
-                <i class="fas fa-th-large"></i> Restrooms
-              </div>
-              <div class="col-6">
-                <i class="fas fa-dumbbell"></i> Treatment 
-              </div>
-            </div>
-            <div class="row py-2 text-secondary">
-              <div class="col-6">
-                <i class="fas fa-bed"></i> Bedrooms
-              </div>
-              <div class="col-6">
-                <i class="fas fa-bath"></i> Bathrooms
-              </div>
-            </div>
-            <hr />
-            <div class="row py-2 text-secondary">
-              <div class="col-12"><i class="fas fa-user"></i> Ms. Chan</div>
-            </div>
-            <div class="row text-secondary pb-2">
-              <div class="col-12">
-                <i class="fas fa-clock"></i> Reservation required
-              </div>
-            </div>
-            <hr />
-            <a href="listing.html" class="btn btn-primary btn-block"
-              >More Info</a
-            >
-          </div>
-        </div>
-      </div>
-
-      <!-- Listing 6 -->
-      <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card listing-preview">
-          <img
-            class="card-img-top"
-            src="assets/img/clinics/clinic-6.jpg"
-            alt=""
-          />
-          <div class="card-img-overlay">
-          </div>
-          <div class="card-body">
-            <div class="listing-heading text-center">
-              <h4 class="text-primary">Healing Horizons Clinic</h4>
-              <p>
-                <i class="fas fa-map-marker text-secondary"></i> Wai Chai
-              </p>
-            </div>
-            <hr />
-            <div class="row py-2 text-secondary">
-              <div class="col-6">
-                <i class="fas fa-th-large"></i> Restrooms
-              </div>
-              <div class="col-6">
-                <i class="fas fa-dumbbell"></i> Treatment 
-              </div>
-            </div>
-            <div class="row py-2 text-secondary">
-              <div class="col-6">
-                <i class="fas fa-bed"></i> Bedrooms
-              </div>
-              <div class="col-6">
-                <i class="fas fa-bath"></i> Bathrooms
-              </div>
-            </div>
-            <hr />
-            <div class="row py-2 text-secondary">
-              <div class="col-12"><i class="fas fa-user"></i> Ms. Chan</div>
-            </div>
-            <div class="row text-secondary pb-2">
-              <div class="col-12">
-                <i class="fas fa-clock"></i> Reservation required
-              </div>
-            </div>
-            <hr />
-            <a href="listing.html" class="btn btn-primary btn-block"
-              >More Info</a
-            >
-          </div>
-        </div>
-      </div>
-    </div>
 
     <div class="row">
       <div class="col-md-12">

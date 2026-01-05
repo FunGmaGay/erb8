@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv 
 import os
+from django.contrib.messages import constants as messages
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -49,7 +50,8 @@ DJANGO_APPS = [
 
 APPLICATION_APPS = ['pages.apps.PagesConfig',
                     'doctors.apps.DoctorsConfig',
-                    'listings.apps.ListingsConfig',]
+                    'listings.apps.ListingsConfig',
+                    'accounts.apps.AccountsConfig',]
 
 THIRD_PARTY_APPS = ["debug_toolbar",]
 
@@ -154,3 +156,7 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
+MESSAGE_TAGS = {
+    messages.ERROR:'danger',
+    messages.SUCCESS:'success',
+}

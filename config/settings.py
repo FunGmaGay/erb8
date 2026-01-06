@@ -51,7 +51,8 @@ DJANGO_APPS = [
 APPLICATION_APPS = ['pages.apps.PagesConfig',
                     'doctors.apps.DoctorsConfig',
                     'listings.apps.ListingsConfig',
-                    'accounts.apps.AccountsConfig',]
+                    'accounts.apps.AccountsConfig',
+                    'contacts.apps.ContactsConfig',]
 
 THIRD_PARTY_APPS = ["debug_toolbar",]
 

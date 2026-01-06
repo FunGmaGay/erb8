@@ -1,13 +1,22 @@
 from django.db import models
 from doctors.models import Doctor
 from .choices import district_choices, room_choices, rooms_choices 
+from taggit.managers import TaggableManager 
+
+class Subject(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name 
+
+
 class Listing(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
     district = models.CharField(max_length=50,choices=district_choices.items(), default='')
     description = models.TextField(blank=True)
-    services = models.TextField(blank=True)
+    services = TaggableManager(verbose_name="Service")
     service = models.IntegerField()
     room_type = models.CharField(max_length=200, choices=room_choices.items(), default='')
     rooms = models.CharField(max_length=2, choices=rooms_choices.items(), default='')
@@ -25,4 +34,7 @@ class Listing(models.Model):
         indexes = [models.Index(fields=['-list_date'])]
 
 def __str__(self):
-        return self.name #to be the one for selection
+        return self.title
+
+def tag_list(self):
+    return u", ".join(tag.name for tag in self.services.all())

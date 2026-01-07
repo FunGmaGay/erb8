@@ -146,6 +146,35 @@
               </div>
             </div>
 
+            <!-- Professional -->
+            <div class="row mb-5">
+            <h4 class="mr-3 text-secondary">Professions:</h4>
+            {% if listing.professionals.all %}   
+            <ul>
+              {% for profession in listing.professionals.all %}
+              <li class="mr-3"><h4>{{profession.name}}</h4></li>
+              {% endfor %}
+            </ul>    
+            {% else %}
+            <p class="text-secondary"><h4>No professions listed</h4></p>
+            {% endif %}
+            </div>
+            
+
+            <!-- Services -->
+            <div class="row mb-5">
+              <h4 class="text-secondary">Services :</h4>
+              {% if listing.services.all %}
+              <!-- Service Tag -->
+              <ul>
+                {% for service_tag in listing.services.all %}
+                <li class="mr-3"><h4>{{service_tag.name | title}}</h4></li>
+                {% endfor %}
+              </ul>
+              {% else %}
+              <h4 class="mr-3">No services</h4>
+              {% endif %}
+            </div>
             <!-- Description -->
             <div class="row mb-5">
               <div class="col-md-12">

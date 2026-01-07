@@ -20,7 +20,7 @@ class Listing(models.Model):
     service = models.IntegerField()
     room_type = models.CharField(max_length=200, choices=room_choices.items(), default='')
     rooms = models.CharField(max_length=2, choices=rooms_choices.items(), default='')
-    professionals = models.CharField(max_length=200, default='')
+    professionals = models.ManyToManyField(Subject, blank=True)
     photo_main = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
     photo_1 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
     photo_2 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
@@ -33,8 +33,8 @@ class Listing(models.Model):
         ordering = ['-list_date']
         indexes = [models.Index(fields=['-list_date'])]
 
-def __str__(self):
+    def __str__(self):
         return self.title
 
-def tag_list(self):
-    return u", ".join(tag.name for tag in self.services.all())
+    def tag_list(self):
+        return u", ".join(tag.name for tag in self.services.all())
